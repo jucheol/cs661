@@ -9,6 +9,10 @@ public class Iterator {
 		
 	}
 	
+	public boolean hasNext() {
+		return false;
+	}
+	
 	public String getNext() {
 		return null;
 	}
