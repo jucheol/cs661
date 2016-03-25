@@ -1,15 +1,23 @@
 package spj;
 
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 public class Tuple {
-	public String getData(String field) {
-		return null;
+	private Map<String, byte[]> attrData; 
+	
+	public Tuple(List<DbAttr> dbAttr, byte[] buffer) {
+		attrData = new HashMap<String, byte[]>();
+		int offset = 0;
+		for (DbAttr attr : dbAttr) {			
+			attrData.put(attr.getAttrName(), Arrays.copyOfRange(buffer, offset, offset + attr.getAttrLength()));
+			offset += attr.getAttrLength();
+		}
 	}
 	
-	public String[] getFields() {
-		return null;
-	}
-	
-	public String getPrimaryKey() {
-		return null;
-	}
+	public byte[] getData(String attrName) {
+		return attrData.get(attrName);
+	}	
 }

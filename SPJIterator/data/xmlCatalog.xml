@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Relational_Db dbName="Personnel" numOfRelations="2">
+
+<dbRel relName="Emp" numOfAttributes="3">
+<dbAttr attrName="Name" attrType="string" attrLength="20"/>
+<dbAttr attrName="DName" attrType="string" attrLength="10"/>
+<dbAttr attrName="Salary" attrType="integer" attrLength="4"/>
+</dbRel>
+
+<dbRel relName="Dept" numOfAttributes="2">
+<dbAttr attrName="DName" attrType="string" attrLength="10"/>
+<dbAttr attrName="MName" attrType="string" attrLength="20"/>
+</dbRel>
+</Relational_Db>
