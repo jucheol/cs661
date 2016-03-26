@@ -16,7 +16,7 @@ public class Buffer {
 		randomAccess.seek(pageNumber * bufferSize);
 		randomAccess.read(buffer);
 		randomAccess.close();
-		int tutpleLength = 0;
+		int tutpleLength = 0; 
 		for (DbAttr attr : dbAttr) {
 			tutpleLength += attr.getAttrLength();
 		}
