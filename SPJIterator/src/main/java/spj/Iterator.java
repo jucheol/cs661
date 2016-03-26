@@ -1,4 +1,4 @@
-package spj;
+  package spj;
 
 public class Iterator {
 	public Iterator(String joinKey) {
@@ -18,6 +18,6 @@ public class Iterator {
 	}
 	
 	public void close() {
-		
+		//deallocate
 	}
 }
