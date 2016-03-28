@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="SPJIterator/src/main/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="C:/Users/Daolin/.m2/repository/dom4j/dom4j/1.1/dom4j-1.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Daolin/.m2/repository/commons-lang/commons-lang/2.6/commons-lang-2.6.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

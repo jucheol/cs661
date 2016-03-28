@@ -17,6 +17,10 @@ public class Tuple {
 		}
 	}
 	
+	public boolean contains(String attr){
+		return attrData.containsKey(attr);
+	}
+	
 	public byte[] getData(String attrName) {
 		return attrData.get(attrName);
 	}	

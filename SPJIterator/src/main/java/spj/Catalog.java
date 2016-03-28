@@ -43,7 +43,7 @@ public class Catalog {
 	}
 
 	public static void main(String args[]) throws Exception {
-		Catalog test = new Catalog(new File("data/xmlCatalog.xml"));
+		Catalog test = new Catalog(new File("SPJIterator/data/xmlCatalog.xml"));
 		System.out.println(test.getDbRels());
 		System.out.println(test.getDbAttrs(test.getDbRels().get(0).getRelName()));
 	}
