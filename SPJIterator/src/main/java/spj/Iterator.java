@@ -54,13 +54,44 @@ public class Iterator {
 		
 	}
 	
-	public boolean hasNext() {
+	/*public boolean hasNext() {
 		return false;
 	}
-	
+	*/
 	public String getNext() {
+//		while (true) {
+//			IF (curTupleIndex is past the last tuple in the last page of Rel) //There are no more tuples in Rel
+//			hasNext := False and RETURN ;
+//			ELSE { // There are more tuples in Rel
+//			IF (curTupleIndex is past the last tuple in the last buffer of Rel in the buffer pool) {
+//			reloadBuffers() and RETURN;
+//			}
+//			ELSE IF (curTupleIndex is past the last tuple in the current buffer in buffer pool){
+//			increment curBuffer to the next buffer of Rel in buffer pool;
+//			curTupleIndex := the first tuple in the current buffer;
+//			}
+//			curTuple := the current tuple with index curTupleIndex;
+//			increment curTupleIndex to the next tuple in the current buffer;
+//			IF (curTuple satisfies the ¡°selection¡± condition)
+//			RETURN curTuple;
+//			// otherwise, repeat the while loop until we get the next satisfied tuple
+//			}
+//			}
 		return null;
 	}
+	
+	public void reloadBuffers() {
+//		decrement the pincount for buffers in the list L;
+//				load the next B pages of the relation Rel into the buffer pool incrementing their pin counts;
+//				// What if Rel has no pages, less than B pages, or exectly B pages left?
+//				curBuffer := the first buffer of the relation Rel in the buffer manager;
+//				curTupleIndex := the first tuple in the current buffer;
+	}
+	
+	public void reset() {
+//		curBuffer := the first buffer of the relation Rel in the buffer pool;
+//		curTupleIndex := the first tuple in the current buffer;
+		}
 	
 	public void close() {
 		//deallocate
