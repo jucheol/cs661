@@ -42,7 +42,7 @@ public class Iterator {
 		catalog = new Catalog(new File("/SPJIterator/data/xmlCatalog.xml"));
 	}
 	
-	public void open(DbRel rel, int bufferNum) throws Exception {
+	public void open(DbRel rel1, DbRel rel2, String joinkey) throws Exception {
 		this.bufferNum = bufferNum;
 		this.rel = rel;
 		//TODO how to set number of buffer needed
@@ -72,7 +72,7 @@ public class Iterator {
 //			}
 //			curTuple := the current tuple with index curTupleIndex;
 //			increment curTupleIndex to the next tuple in the current buffer;
-//			IF (curTuple satisfies the ¡°selection¡± condition)
+//			IF (curTuple satisfies the ï¿½ï¿½selectionï¿½ï¿½ condition)
 //			RETURN curTuple;
 //			// otherwise, repeat the while loop until we get the next satisfied tuple
 //			}
