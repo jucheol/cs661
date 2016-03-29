@@ -16,13 +16,18 @@ public class Iterator {
 //		curBuffer : the pointer to the current buffer in the buffer manager;
 //		curTuple : a small buffer that can hold the data of one tuple temporarily;
 //	private String key;
-	private String file1 = "/SPJIterator/data/dept.raf";
-	private String file2 = "/SPJIterator/data/emp.raf";
-	private boolean hasNext = false;
+	private File file1 = new File("/SPJIterator/data/dept.raf");
+	private File file2 = new File("/SPJIterator/data/emp.raf");
+	private int tupleLength;
+	private int pageNum1, pageNum2;
+	private int tupleInBuf1, tupleInBuf2;
+	
+	private boolean next = false;
 	private int bufferNum;
 	private List<Boolean> list;
 	private int curBuffer;
-	private int curTupleIndex;
+	private int curTupleIndex1 = 0;
+	private int curTupleIndex2 = 0;
 	private Tuple curTuple;
 	private Sel sel = null;
 	private DbRel rel;
@@ -42,22 +47,39 @@ public class Iterator {
 		catalog = new Catalog(new File("/SPJIterator/data/xmlCatalog.xml"));
 	}
 	
-	public void open(DbRel rel1, DbRel rel2, String joinkey) throws Exception {
+	public void open(DbRel rel, int bufferNum) throws Exception {
 		this.bufferNum = bufferNum;
 		this.rel = rel;
+		pageNum1 = (int) Math.ceil(file1.length()/(bufferSize/tupleLength));
+		pageNum2 = (int) Math.ceil(file2.length()/(bufferSize/tupleLength));
 		//TODO how to set number of buffer needed
-		Buffer bufA = new Buffer(new File(file1), bufferSize, pageNumber1, catalog.getDbAttrs(rel.getRelName()));
+		Buffer bufA = new Buffer(file1, bufferSize, pageNumber1, catalog.getDbAttrs(rel.getRelName()));
+		pageNumber1++;
+		Buffer bufB = new Buffer(file2, bufferSize, pageNumber2, catalog.getDbAttrs(rel.getRelName()));
+		pageNumber2++;
 		
-		Buffer bufB = new Buffer(new File(file2), bufferSize, pageNumber1, catalog.getDbAttrs(rel.getRelName()));
-		//
+		for (int i = 0; i < bufA.getTupleTotal(); i++) {
+			Tuple A = bufA.getTutple(i);
+			Tuple B = bufB.getTutple(curTupleIndex2);
+			//update current tuple index in bufA if match
+			if (sel != null && (!sel.satisfiedBy(A) || !sel.satisfiedBy(B))) {
+				continue;
+			} 
+			//check relation requirement
+			{
+				
+			}
+			
+		}
+		
 		
 		
 	}
 	
-	/*public boolean hasNext() {
-		return false;
+	public boolean hasNext() {
+		return next;
 	}
-	*/
+	
 	public String getNext() {
 //		while (true) {
 //			IF (curTupleIndex is past the last tuple in the last page of Rel) //There are no more tuples in Rel
@@ -72,7 +94,7 @@ public class Iterator {
 //			}
 //			curTuple := the current tuple with index curTupleIndex;
 //			increment curTupleIndex to the next tuple in the current buffer;
-//			IF (curTuple satisfies the ï¿½ï¿½selectionï¿½ï¿½ condition)
+//			IF (curTuple satisfies the ¡°selection¡± condition)
 //			RETURN curTuple;
 //			// otherwise, repeat the while loop until we get the next satisfied tuple
 //			}
