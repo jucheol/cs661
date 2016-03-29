@@ -7,11 +7,11 @@ import java.util.List;
 
 public class Buffer {
 	private byte[] buffer;	
-	private int numTuples, bufferSize, tutpleLength;
+	private int numTuples, bufferSize, tupleLength;
 	private List<DbAttr> dbAttr;
 
 	public Buffer(File db, int numTuples, int pageNumber, List<DbAttr> dbAttr) throws Exception {
-		int tupleLength = 0;
+		tupleLength = 0;
 		for (DbAttr attr : dbAttr) {
 			tupleLength += attr.getAttrLength();
 		}
@@ -34,13 +34,13 @@ public class Buffer {
 	}
 
 	public int getTutpleLength() {
-		return tutpleLength;
+		return tupleLength;
 	}
 
 	public Tuple getTutple(int tuppleNumber) {
 		if (tuppleNumber < numTuples) {
-			int from = tuppleNumber * tutpleLength;
-			int to = from + tutpleLength;
+			int from = tuppleNumber * tupleLength;
+			int to = from + tupleLength;
 			return new Tuple(dbAttr, Arrays.copyOfRange(buffer, from, to));
 		}
 		else {
