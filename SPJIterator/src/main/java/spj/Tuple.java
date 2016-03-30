@@ -23,5 +23,9 @@ public class Tuple {
 	
 	public byte[] getData(String attrName) {
 		return attrData.get(attrName);
-	}	
+	}
+	
+	public boolean join(DbAttr attr, Tuple tuple) {
+		return (tuple.getData(attr.getAttrName()).equals(this.getData(attr.getAttrName())));
+	}
 }

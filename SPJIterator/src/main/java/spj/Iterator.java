@@ -20,23 +20,29 @@ public class Iterator {
 	private File file2 = new File("/SPJIterator/data/emp.raf");
 	private Catalog catalog;
 	private String rel1, rel2; // name of relation to fetch attribute list
+	private DbAttr key;
 
 	private int tupleLength1, tupleLength2;
 	private int totalTuple1, totalTuple2;
+	private int totalPage1, totalPage2;
+	private int numTuples1, numTuples2;
+	private int pageVolume = 10;
 	
+	private int pageNum1 = 0, pageNum2 = 0;
 	
-	private int tupleInBuf1, tupleInBuf2;
+	private int tupleInBuf1 = 0, tupleInBuf2 = 0;
 	
 	private boolean next = false;
 	
 	
-	private int bufferSize = 4096;
+//	private int bufferSize = 4096;
 
 	
 	
-	public Iterator(String rel1, String rel2) throws Exception {
+	public Iterator(String rel1, String rel2, DbAttr key) throws Exception {
 		this.rel1 = rel1;
 		this.rel2 = rel2;
+		this.key = key;
 		catalog = new Catalog(new File("/SPJIterator/data/xmlCatalog.xml"));
 		tupleLength1 = catalog.getTupleLength(rel1);
 		tupleLength2 = catalog.getTupleLength(rel2);
@@ -44,35 +50,31 @@ public class Iterator {
 		totalTuple1 = (int) file1.length()/tupleLength1;
 		totalTuple2 = (int) file1.length()/tupleLength2;
 		
-		
-		
+		totalPage1 = (int) Math.ceil(totalTuple1 / pageVolume);
+		totalPage2 = (int) Math.ceil(totalTuple2 / pageVolume);
 	}
 	
 	public void open() throws Exception {
-		this.bufferNum = bufferNum;
-		this.rel = rel;
-		pageNum1 = (int) Math.ceil(file1.length()/(bufferSize/tupleLength));
-		pageNum2 = (int) Math.ceil(file2.length()/(bufferSize/tupleLength));
+		
 		//TODO how to set number of buffer needed
-		Buffer bufA = new Buffer(file1, bufferSize, pageNumber1, catalog.getDbAttrs(rel.getRelName()));
-		pageNumber1++;
-		Buffer bufB = new Buffer(file2, bufferSize, pageNumber2, catalog.getDbAttrs(rel.getRelName()));
-		pageNumber2++;
+		numTuples1 = pageVolume;
+		if (totalTuple1 < pageVolume) numTuples1 = totalTuple1;
+		Buffer bufA = new Buffer(file1, numTuples1, pageNum1, catalog.getDbAttrs(rel1));
+		pageNum1++;
 		
-		for (int i = 0; i < bufA.getTupleTotal(); i++) {
-			Tuple A = bufA.getTutple(i);
-			Tuple B = bufB.getTutple(curTupleIndex2);
-			//update current tuple index in bufA if match
-			if (sel != null && (!sel.satisfiedBy(A) || !sel.satisfiedBy(B))) {
-				continue;
-			} 
-			//check relation requirement
-			{
-				
+		numTuples2 = pageVolume;
+		if (totalTuple2 < pageVolume) numTuples2 = totalTuple2;
+		Buffer bufB = new Buffer(file2, numTuples2, pageNum2, catalog.getDbAttrs(rel2));
+		pageNum2++;
+		
+		for (; tupleInBuf2 < numTuples2; tupleInBuf2++) {
+			for (int i = 0; i < numTuples1; i++) {
+				if (bufA.getTutple(i).join(key, bufB.getTutple(tupleInBuf2))){
+					tupleInBuf1 = i;
+					return;
+				}
 			}
-			
 		}
-		
 		
 		
 	}
