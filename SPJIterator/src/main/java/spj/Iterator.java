@@ -18,36 +18,37 @@ public class Iterator {
 //	private String key;
 	private File file1 = new File("/SPJIterator/data/dept.raf");
 	private File file2 = new File("/SPJIterator/data/emp.raf");
-	private int tupleLength;
-	private int pageNum1, pageNum2;
+	private Catalog catalog;
+	private String rel1, rel2; // name of relation to fetch attribute list
+
+	private int tupleLength1, tupleLength2;
+	private int totalTuple1, totalTuple2;
+	
+	
 	private int tupleInBuf1, tupleInBuf2;
 	
 	private boolean next = false;
-	private int bufferNum;
-	private List<Boolean> list;
-	private int curBuffer;
-	private int curTupleIndex1 = 0;
-	private int curTupleIndex2 = 0;
-	private Tuple curTuple;
-	private Sel sel = null;
-	private DbRel rel;
 	
-	private Catalog catalog;
+	
 	private int bufferSize = 4096;
-	private int pageNumber1 = 0;
-	private int pageNumber2 = 0;
+
 	
 	
-	public Iterator() throws Exception {
-		super();
+	public Iterator(String rel1, String rel2) throws Exception {
+		this.rel1 = rel1;
+		this.rel2 = rel2;
 		catalog = new Catalog(new File("/SPJIterator/data/xmlCatalog.xml"));
-	}
-	public Iterator(Sel selection) throws Exception {
-		sel = selection;
-		catalog = new Catalog(new File("/SPJIterator/data/xmlCatalog.xml"));
+		tupleLength1 = catalog.getTupleLength(rel1);
+		tupleLength2 = catalog.getTupleLength(rel2);
+		
+		totalTuple1 = (int) file1.length()/tupleLength1;
+		totalTuple2 = (int) file1.length()/tupleLength2;
+		
+		
+		
 	}
 	
-	public void open(DbRel rel, int bufferNum) throws Exception {
+	public void open() throws Exception {
 		this.bufferNum = bufferNum;
 		this.rel = rel;
 		pageNum1 = (int) Math.ceil(file1.length()/(bufferSize/tupleLength));

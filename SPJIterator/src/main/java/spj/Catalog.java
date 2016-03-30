@@ -41,6 +41,17 @@ public class Catalog {
 		}
 		return attrs;
 	}
+	
+	public int getTupleLength(String relName) {
+		int length = 0;
+		for (Object item : xml.selectNodes("/Relational_Db/dbRel[@relName='" + relName + "']/dbAttr")) {
+			if (item instanceof Element) {
+				Element itemElement = (Element) item;
+				length += Integer.parseInt(itemElement.attributeValue("attrLength"));
+			}
+		}
+		return length;
+	}
 
 	public static void main(String args[]) throws Exception {
 		Catalog test = new Catalog(new File("SPJIterator/data/xmlCatalog.xml"));

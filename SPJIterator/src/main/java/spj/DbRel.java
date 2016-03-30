@@ -17,6 +17,8 @@ public class DbRel {
 	public int getNumOfAttributes() {
 		return numOfAttributes;
 	}
+	
+
 
 	@Override
 	public String toString() {
