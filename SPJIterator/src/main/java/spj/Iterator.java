@@ -18,9 +18,11 @@ public class Iterator {
 //	private String key;
 	private File file1 = new File("/SPJIterator/data/dept.raf");
 	private File file2 = new File("/SPJIterator/data/emp.raf");
+	private SPiterator sPiterator;
 	private Catalog catalog;
 	private String rel1, rel2; // name of relation to fetch attribute list
 	private DbAttr key;
+	private Buffer buf;
 
 	private int tupleLength1, tupleLength2;
 	private int totalTuple1, totalTuple2;
@@ -39,10 +41,11 @@ public class Iterator {
 
 	
 	
-	public Iterator(String rel1, String rel2, DbAttr key) throws Exception {
+	public Iterator(String rel1, String rel2, DbAttr key, SPiterator it) throws Exception {
 		this.rel1 = rel1;
 		this.rel2 = rel2;
 		this.key = key;
+		this.sPiterator = it;
 		catalog = new Catalog(new File("/SPJIterator/data/xmlCatalog.xml"));
 		tupleLength1 = catalog.getTupleLength(rel1);
 		tupleLength2 = catalog.getTupleLength(rel2);
@@ -56,69 +59,64 @@ public class Iterator {
 	
 	public void open() throws Exception {
 		
-		//TODO how to set number of buffer needed
-		numTuples1 = pageVolume;
-		if (totalTuple1 < pageVolume) numTuples1 = totalTuple1;
-		Buffer bufA = new Buffer(file1, numTuples1, pageNum1, catalog.getDbAttrs(rel1));
-		pageNum1++;
 		
-		numTuples2 = pageVolume;
+		
+		reloadBuffers();
+		
+	/*	numTuples2 = pageVolume;
 		if (totalTuple2 < pageVolume) numTuples2 = totalTuple2;
 		Buffer bufB = new Buffer(file2, numTuples2, pageNum2, catalog.getDbAttrs(rel2));
-		pageNum2++;
+		pageNum2++;*/
 		
-		for (; tupleInBuf2 < numTuples2; tupleInBuf2++) {
+		/*while(sPiterator.hasNext()&& pageNum1 < totalPage1){
 			for (int i = 0; i < numTuples1; i++) {
-				if (bufA.getTutple(i).join(key, bufB.getTutple(tupleInBuf2))){
+				if (buf.getTutple(i).join(key, sPiterator.getNext())){
 					tupleInBuf1 = i;
+					next = true;
 					return;
 				}
 			}
-		}
-		
-		
+		}*/
+		//find first tuple
+		seek();
 	}
 	
 	public boolean hasNext() {
 		return next;
 	}
 	
-	public String getNext() {
-//		while (true) {
-//			IF (curTupleIndex is past the last tuple in the last page of Rel) //There are no more tuples in Rel
-//			hasNext := False and RETURN ;
-//			ELSE { // There are more tuples in Rel
-//			IF (curTupleIndex is past the last tuple in the last buffer of Rel in the buffer pool) {
-//			reloadBuffers() and RETURN;
-//			}
-//			ELSE IF (curTupleIndex is past the last tuple in the current buffer in buffer pool){
-//			increment curBuffer to the next buffer of Rel in buffer pool;
-//			curTupleIndex := the first tuple in the current buffer;
-//			}
-//			curTuple := the current tuple with index curTupleIndex;
-//			increment curTupleIndex to the next tuple in the current buffer;
-//			IF (curTuple satisfies the ¡°selection¡± condition)
-//			RETURN curTuple;
-//			// otherwise, repeat the while loop until we get the next satisfied tuple
-//			}
-//			}
-		return null;
+	public Tuple getNext() {
+
+		Tuple tp = buf.getTutple(tupleInBuf1);
+		seek();
+		return tp;
 	}
 	
-	public void reloadBuffers() {
-//		decrement the pincount for buffers in the list L;
-//				load the next B pages of the relation Rel into the buffer pool incrementing their pin counts;
-//				// What if Rel has no pages, less than B pages, or exectly B pages left?
-//				curBuffer := the first buffer of the relation Rel in the buffer manager;
-//				curTupleIndex := the first tuple in the current buffer;
+	private void reloadBuffers() throws Exception {
+				numTuples1 = pageVolume;
+				if (totalTuple1 < pageVolume) numTuples1 = totalTuple1;
+				buf = new Buffer(file1, numTuples1, pageNum1, catalog.getDbAttrs(rel1));
+				pageNum1++;
 	}
 	
-	public void reset() {
-//		curBuffer := the first buffer of the relation Rel in the buffer pool;
-//		curTupleIndex := the first tuple in the current buffer;
+	private void seek(){
+		while(sPiterator.hasNext()&& pageNum1 < totalPage1){
+			for (int i = 0; i < numTuples1; i++) {
+				if (buf.getTutple(i).join(key, sPiterator.getNext())){
+					tupleInBuf1 = i;
+					next = true;
+					return;
+				}
+			}
 		}
+		next = false;
+	}
+	
 	
 	public void close() {
 		//deallocate
+		pageNum1 = 0;
+		tupleInBuf1 = 0;
+		buf = null;
 	}
 }
