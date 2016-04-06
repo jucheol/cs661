@@ -32,7 +32,12 @@ public class Tuple {
 	}
 	
 	public byte[] getData(String attrName) {
-		return attrData.get(attrName);
+		if (attrData.containsKey(attrName)) {
+			return attrData.get(attrName);
+		}
+		else {
+			return null;
+		}
 	}
 	
 	public boolean join(DbAttr attr, Tuple tuple) {
