@@ -1,4 +1,4 @@
-package spj;
+package database;
 
 /**
  * DBattr stores database attributes

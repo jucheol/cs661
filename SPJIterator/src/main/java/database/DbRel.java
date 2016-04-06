@@ -1,4 +1,4 @@
-package spj;
+package database;
 
 /**
  * DBRel stores database relations

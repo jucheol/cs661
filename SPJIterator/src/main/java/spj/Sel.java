@@ -1,4 +1,8 @@
 package spj;
+
+import database.DbAttr;
+import database.Tuple;
+
 /**
  * 
  * @author Daolin Cheng

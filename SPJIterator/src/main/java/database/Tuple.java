@@ -1,4 +1,4 @@
-package spj;
+package database;
 
 import java.util.Arrays;
 import java.util.HashMap;

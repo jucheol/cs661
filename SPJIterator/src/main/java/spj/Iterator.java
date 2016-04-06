@@ -2,6 +2,11 @@
 
 import java.io.File;
 import java.util.List;
+
+import database.Buffer;
+import database.Catalog;
+import database.DbAttr;
+import database.Tuple;
   
 public class Iterator {
 //	Parameters:

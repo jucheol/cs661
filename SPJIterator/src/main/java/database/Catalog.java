@@ -1,4 +1,4 @@
-package spj;
+package database;
 
 import java.io.File;
 import java.util.LinkedList;
