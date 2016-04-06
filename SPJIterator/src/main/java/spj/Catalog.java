@@ -8,9 +8,18 @@ import org.dom4j.Document;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
+/**
+ * A catalog parse the xml file
+ */
 public class Catalog {
 	private Document xml;
 
+	/**
+	 * Creates a catalog
+	 *
+	 * @param  catalogFile xml file which contains catalog information
+	 * 
+	 */
 	public Catalog(File catalogFile) throws Exception {
 		SAXReader reader = new SAXReader();
 		xml = reader.read(catalogFile);
