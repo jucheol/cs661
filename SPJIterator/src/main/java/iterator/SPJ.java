@@ -1,4 +1,4 @@
-  package spj;
+  package iterator;
 
 import java.io.File;
 import java.util.List;
@@ -8,7 +8,9 @@ import database.Catalog;
 import database.DbAttr;
 import database.Tuple;
   
-public class Iterator {
+public class SPJ {
+	private SP r, s;
+	
 //	Parameters:
 //		Rel : the relation to be instreamed;
 //		//For example, the path expression //dbRel [@relName="Emp"]
@@ -23,7 +25,7 @@ public class Iterator {
 //	private String key;
 	private File file1 = new File("/SPJIterator/data/dept.raf");
 	private File file2 = new File("/SPJIterator/data/emp.raf");
-	private SPiterator sPiterator;
+	private SP sPiterator;
 	private Catalog catalog;
 	private String rel1, rel2; // name of relation to fetch attribute list
 	private DbAttr key;
@@ -46,7 +48,7 @@ public class Iterator {
 
 	
 	
-	public Iterator(String rel1, String rel2, DbAttr key, SPiterator it) throws Exception {
+	public SPJ(String rel1, String rel2, DbAttr key, SP it) throws Exception {
 		this.rel1 = rel1;
 		this.rel2 = rel2;
 		this.key = key;
