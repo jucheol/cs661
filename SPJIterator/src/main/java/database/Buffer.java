@@ -19,9 +19,7 @@ public class Buffer {
 	 *
 	 * @param  db database file
 	 * @param  numTuples the number of tuples in a buffer
-	 * @param  pageNumber the page number for the database file
 	 * @param  dbAttr database attributes
-	 * @throws Exception IO exception
 	 */
 	public Buffer(File db, int numTuples, List<DbAttr> dbAttr) {
 		tupleLength = 0;

@@ -6,12 +6,24 @@ import database.Buffer;
 import database.Catalog;
 import database.Tuple;
 
+/**
+ * SP iterator.
+ */
 public class SP {
 	private Condition filter;
 	private Tuple nextTuple;
 	private Buffer buf;
 	private int tuppleId;
 	
+	/**
+	 * Creates a SP iterator.
+	 *
+	 * @param  db database file
+	 * @param  relName relation name
+	 * @param  cata Catalog object
+	 * @param  filter Condition object
+	 * @throws Exception IO exception
+	 */
 	public SP(File db, String relName, Catalog cata, Condition filter) throws Exception {
 		this.filter = filter;		
 		buf = new Buffer(db, 10, cata.getDbAttrs(relName));
