@@ -9,7 +9,7 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 /**
- * A catalog parse the xml file
+ * Catalog parses the xml file
  */
 public class Catalog {
 	private Document xml;
@@ -17,7 +17,8 @@ public class Catalog {
 	/**
 	 * Creates a catalog
 	 *
-	 * @param  catalogFile xml file which contains catalog information
+	 * @param  catalogFile the xml file which contains catalog information
+	 * @throws Exception IO exception
 	 * 
 	 */
 	public Catalog(File catalogFile) throws Exception {

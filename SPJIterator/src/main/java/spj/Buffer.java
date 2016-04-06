@@ -6,9 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * A buffer stores an information from a database file.
+ * Buffer stores an information from a database file.
  */
-
 public class Buffer {
 	private byte[] buffer;	
 	private int numTuples, bufferSize, tupleLength;
@@ -21,7 +20,7 @@ public class Buffer {
 	 * @param  numTuples the number of tuples for a buffer
 	 * @param  pageNumber the page number for the database file
 	 * @param  dbAttr database attributes
-	 * 
+	 * @throws Exception IO exception
 	 */
 	public Buffer(File db, int numTuples, int pageNumber, List<DbAttr> dbAttr) throws Exception {
 		tupleLength = 0;

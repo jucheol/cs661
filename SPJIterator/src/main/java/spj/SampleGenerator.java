@@ -7,6 +7,9 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.RandomStringUtils;
 
+/**
+ * A sample data generator
+ */
 public class SampleGenerator {
 	public static void main(String[] args) throws Exception {		
 		File empF = new File("data/emp.raf");

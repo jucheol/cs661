@@ -1,9 +1,19 @@
 package spj;
 
+/**
+ * DBRel stores database relations
+ */
 public class DbRel {
 	private String relName;
 	private int numOfAttributes;
 	
+	/**
+	 * Creates a DBRel
+	 *
+	 * @param  relName relation name
+	 * @param  numOfAttributes the number of attributes
+	 * 
+	 */
 	public DbRel(String relName, String numOfAttributes) {
 		super();
 		this.relName = relName;
@@ -17,8 +27,6 @@ public class DbRel {
 	public int getNumOfAttributes() {
 		return numOfAttributes;
 	}
-	
-
 
 	@Override
 	public String toString() {

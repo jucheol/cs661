@@ -5,9 +5,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Tuple contains data of all attributes
+ */
 public class Tuple {
 	private Map<String, byte[]> attrData; 
 	
+	/**
+	 * Creates a tuple
+	 *
+	 * @param  dbAttr database attributes
+	 * @param  buffer an array of bytes which corresponds a tuple
+	 * 
+	 */
 	public Tuple(List<DbAttr> dbAttr, byte[] buffer) {
 		attrData = new HashMap<String, byte[]>();
 		int offset = 0;
