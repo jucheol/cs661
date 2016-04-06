@@ -5,11 +5,24 @@ import java.io.RandomAccessFile;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * A buffer stores an information from a database file.
+ */
+
 public class Buffer {
 	private byte[] buffer;	
 	private int numTuples, bufferSize, tupleLength;
 	private List<DbAttr> dbAttr;
 
+	/**
+	 * Creates a buffer.
+	 *
+	 * @param  db database file
+	 * @param  numTuples the number of tuples for a buffer
+	 * @param  pageNumber the page number for the database file
+	 * @param  dbAttr database attributes
+	 * 
+	 */
 	public Buffer(File db, int numTuples, int pageNumber, List<DbAttr> dbAttr) throws Exception {
 		tupleLength = 0;
 		for (DbAttr attr : dbAttr) {
