@@ -54,21 +54,24 @@ public class SP {
 	public static void main(String[] args) throws Exception {
 		Catalog cata = new Catalog(new File("data/xmlCatalog.xml"));
 		Condition filter = new Condition();
+		
 		SP emp = new SP(new File("data/emp.raf"), "Emp", cata, filter);
 		emp.open();
 		while (emp.hasNext()) {
 			Tuple tp = emp.getNext();
-			String output = new String(tp.getData("Salary"));
-			System.out.println(output);
+			if (tp.getData("Salary") != null) {
+				System.out.println(new String(tp.getData("Salary")));
+			}
 		}
 		emp.close();
 		
 		SP dept = new SP(new File("data/dept.raf"), "Dept", cata, filter);
 		dept.open();
 		while (dept.hasNext()) {
-			Tuple tp = dept.getNext();			
-			String output = new String(tp.getData("DName"));
-			System.out.println(output);
+			Tuple tp = dept.getNext();	
+			if (tp.getData("MName") != null) {			
+				System.out.println(new String(tp.getData("DName")));
+			}
 		}
 		dept.close();
 	}
