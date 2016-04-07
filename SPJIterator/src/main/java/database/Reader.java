@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * Buffer stores an information from a database file.
+ * Reader stores an information from a database file.
  */
 public class Reader {
 	private byte[] buffer;	
