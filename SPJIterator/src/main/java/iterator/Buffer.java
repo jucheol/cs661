@@ -65,6 +65,9 @@ public class Buffer {
 		return nextBuffer.size() > 0;
 	}
 	
+	/**
+	 * rewind the buffer to the beginning of file 
+	 */
 	public void reload(){
 		//TODO reload the buffer from beginning of the file
 	}
