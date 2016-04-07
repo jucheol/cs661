@@ -10,8 +10,7 @@ import database.Tuple;
   
 public class SPJ {
 	private SP rIt, sIt;
-	private List<Tuple> rBuf;
-	private Tuple sBuf;
+	private List<Tuple> sBuf, rBuf;
 	
 //	Parameters:
 //		Rel : the relation to be instreamed;
