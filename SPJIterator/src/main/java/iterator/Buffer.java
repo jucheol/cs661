@@ -9,7 +9,7 @@ import database.Catalog;
 import database.Tuple;
 
 /**
- * SP iterator.
+ * Buffer class.
  */
 public class Buffer {
 	private Condition filter;
@@ -18,7 +18,7 @@ public class Buffer {
 	private int tuppleId, bufSize = 10;
 	
 	/**
-	 * Creates a SP iterator.
+	 * Creates a buffer.
 	 *
 	 * @param  db database file
 	 * @param  relName relation name
@@ -45,9 +45,8 @@ public class Buffer {
 	}
 	
 	public boolean hasNext() throws Exception {
-		Tuple tp = null;
 		List<Tuple> tmp = new ArrayList<Tuple>(bufSize);
-		while (tp == null) {
+		while (tmp.size() < bufSize) {
 			if (tuppleId == reader.getNumTuples()) {
 				if (reader.hasTuple()) {
 					reader.fillBuffer();
@@ -57,17 +56,10 @@ public class Buffer {
 					break;
 				}
 			}			
-			tp = reader.getTutple(tuppleId++);			
-			if (!filter.isSatisfy(tp)) {
-				tp = null;
-			} 
-			else {
-				tmp.add(tp);
-				tp = null;
-				if (tmp.size() == bufSize) {
-					break;
-				}
-			}
+			Tuple tp = reader.getTutple(tuppleId++);			
+			if (filter.isSatisfy(tp)) {				
+				tmp.add(tp);				
+			}			
 		}
 		nextBuffer = tmp;
 		return nextBuffer.size() > 0;
