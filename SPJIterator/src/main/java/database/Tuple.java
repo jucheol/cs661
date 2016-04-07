@@ -26,6 +26,15 @@ public class Tuple {
 			offset += attr.getAttrLength();
 		}
 	}
+	/**
+	 * constructs new tuple object using two tuples and key
+	 * @param a
+	 * @param b
+	 * @param key
+	 */
+	public Tuple (Tuple a, Tuple b, String key) {
+		//TODO
+	}
 	
 	public boolean contains(String attr){
 		return attrData.containsKey(attr);

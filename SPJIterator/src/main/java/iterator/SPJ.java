@@ -2,68 +2,27 @@ package iterator;
 
 
 	  import java.io.File;
-	  import java.util.List;
+import java.util.List;
 
 	  import database.Reader;
-	  import database.Catalog;
-	  import database.DbAttr;
-	  import database.Tuple;
+import database.Catalog;
+import database.DbAttr;
+import database.Tuple;
 	    
 	  public class SPJ {
 	  	private Buffer sBuf;
 	  	private List<Buffer> rBuf;
+		private String rel1;
+		private String rel2;
+		private DbAttr key;
+		private boolean next;
 	  	
-//	  	Parameters:
-//	  		Rel : the relation to be instreamed;
-//	  		//For example, the path expression //dbRel [@relName="Emp"]
-//	  		B : the number of buffers used for instreaming Rel;
-//	  		// B pages are read, except possibly at the end of the relation stream
-//	  		// Pinning and unpinning must be done - entitled to no more than B pins
-//	  		L: A list to keep track of buffers that have been pinned.
-//	  		Sel: selection condition; // A path expression in the expression tree
-//	  		curTupleIndex : the pointer for the current tuple in the current buffer;
-//	  		curBuffer : the pointer to the current buffer in the buffer manager;
-//	  		curTuple : a small buffer that can hold the data of one tuple temporarily;
-//	  	private String key;
-	  	private File file1 = new File("/SPJIterator/data/dept.raf");
-	  	private File file2 = new File("/SPJIterator/data/emp.raf");
-	  	private Buffer sPiterator;
-	  	private Catalog catalog;
-	  	private String rel1, rel2; // name of relation to fetch attribute list
-	  	private DbAttr key;
-	  	private Reader buf;
-
-	  	private int tupleLength1, tupleLength2;
-	  	private int totalTuple1, totalTuple2;
-	  	private int totalPage1, totalPage2;
-	  	private int numTuples1, numTuples2;
-	  	private int pageVolume = 10;
+  	
 	  	
-	  	private int pageNum1 = 0, pageNum2 = 0;
-	  	
-	  	private int tupleInBuf1 = 0, tupleInBuf2 = 0;
-	  	
-	  	private boolean next = false;
-	  	
-	  	
-//	  	private int bufferSize = 4096;
-
-	  	
-	  	
-	  	public SPJ(String rel1, String rel2, DbAttr key, Buffer it) throws Exception {
+	  	public SPJ(String rel1, String rel2, DbAttr key, Buffer s, List<Buffer> r) throws Exception {
 	  		this.rel1 = rel1;
 	  		this.rel2 = rel2;
 	  		this.key = key;
-	  		this.sPiterator = it;
-	  		catalog = new Catalog(new File("/SPJIterator/data/xmlCatalog.xml"));
-	  		tupleLength1 = catalog.getTupleLength(rel1);
-	  		tupleLength2 = catalog.getTupleLength(rel2);
-	  		
-	  		totalTuple1 = (int) file1.length()/tupleLength1;
-	  		totalTuple2 = (int) file1.length()/tupleLength2;
-	  		
-	  		totalPage1 = (int) Math.ceil(totalTuple1 / pageVolume);
-	  		totalPage2 = (int) Math.ceil(totalTuple2 / pageVolume);
 	  	}
 	  	
 	  	public void open() throws Exception {
