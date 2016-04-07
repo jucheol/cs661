@@ -8,7 +8,7 @@ import database.Catalog;
 import database.DbAttr;
 import database.Tuple;
   
-public class SPJ {
+public class SPJ_backup {
 	private Buffer sBuf;
 	private List<Buffer> rBuf;
 	
@@ -49,7 +49,7 @@ public class SPJ {
 
 	
 	
-	public SPJ(String rel1, String rel2, DbAttr key, Buffer it) throws Exception {
+	public SPJ_backup(String rel1, String rel2, DbAttr key, Buffer it) throws Exception {
 		this.rel1 = rel1;
 		this.rel2 = rel2;
 		this.key = key;
