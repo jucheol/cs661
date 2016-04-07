@@ -64,6 +64,10 @@ public class Buffer {
 		nextBuffer = tmp;
 		return nextBuffer.size() > 0;
 	}
+	public Tuple getTuple(int index) {
+		//TODO return tuple by index
+		return null;
+	}
 	
 	/**
 	 * rewind the buffer to the beginning of file 
@@ -99,5 +103,8 @@ public class Buffer {
 			}
 		}
 		dept.close();
+		
+		//for SPJ iterator
+		
 	}
 }

@@ -15,7 +15,9 @@ import database.Tuple;
 		private String rel1;
 		private String rel2;
 		private DbAttr key;
-		private boolean next;
+//		private boolean next;
+		private int rInx = 0, tupleInR = 0, tupleInS = 0;
+		private Tuple next = null;
 	  	
   	
 	  	
@@ -23,75 +25,60 @@ import database.Tuple;
 	  		this.rel1 = rel1;
 	  		this.rel2 = rel2;
 	  		this.key = key;
+	  		this.sBuf = s;
+	  		this.rBuf = r;
 	  	}
 	  	
 	  	public void open() throws Exception {
 	  		
-	  		
-	  		
-	  		reloadBuffers();
-	  		
-	  	/*	numTuples2 = pageVolume;
-	  		if (totalTuple2 < pageVolume) numTuples2 = totalTuple2;
-	  		Buffer bufB = new Buffer(file2, numTuples2, pageNum2, catalog.getDbAttrs(rel2));
-	  		pageNum2++;*/
-	  		
-	  		/*while(sPiterator.hasNext()&& pageNum1 < totalPage1){
-	  			for (int i = 0; i < numTuples1; i++) {
-	  				if (buf.getTutple(i).join(key, sPiterator.getNext())){
-	  					tupleInBuf1 = i;
-	  					next = true;
-	  					return;
-	  				}
-	  			}
-	  		}*/
 	  		//find first tuple
 	  		seek();
 	  	}
 	  	
 	  	public boolean hasNext() {
-	  		return next;
+	  		return next != null;
 	  	}
 	  	
-	  	public Tuple getNext() {
+	  	public Tuple getNext() throws Exception {
 
-	  		Tuple tp = buf.getTutple(tupleInBuf1);
+	  		Tuple tp = next;
 	  		seek();
 	  		return tp;
 	  	}
 	  	
-	  	private void reloadBuffers() throws Exception {
-	  				numTuples1 = pageVolume;
-	  				if (totalTuple1 < pageVolume) numTuples1 = totalTuple1;
-	  				buf = new Reader(file1, numTuples1, pageNum1, catalog.getDbAttrs(rel1));
-	  				pageNum1++;
-	  	}
-	  	
-	  	private void seek(){
-	  		while(sPiterator.hasNext()&& pageNum1 < totalPage1){
-	  			for (int i = 0; i < numTuples1; i++) {
-	  				if (buf.getTutple(i).join(key, sPiterator.getNext())){
-	  					tupleInBuf1 = i;
-	  					next = true;
-	  					return;
+
+	  	/**
+	  	 * find next joined Tuple available
+	  	 * @throws Exception 
+	  	 */
+	  	private void seek() throws Exception{
+	  		while(sBuf.hasNext()){
+	  			Tuple sTuple = sBuf.getNext().get(0);
+	  			while(rInx < rBuf.size())   {
+	  				while(rBuf.get(rInx).hasNext()){
+	  					Tuple rTuple = rBuf.get(rInx).getNext().get(0);
+	  					if (sTuple.join(key, rTuple)){
+	  						next = new Tuple(sTuple, rTuple, key.getAttrName());
+	  						return;
+	  					}
 	  				}
+	  				rInx++;
 	  			}
+	  			rInx = 0;
 	  		}
-	  		next = false;
+	  		next = null;
 	  	}
 	  	
 	  	
 	  	public void close() {
 	  		//deallocate
-	  		pageNum1 = 0;
-	  		tupleInBuf1 = 0;
-	  		buf = null;
+	  		rInx = 0; 
+	  		tupleInR = 0; 
+	  		tupleInS = 0;
+			next = null;
 	  	}
 	  
 
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
-	}
 
 }
