@@ -9,8 +9,8 @@ import database.DbAttr;
 import database.Tuple;
   
 public class SPJ_backup {
-	private Buffer sBuf;
-	private List<Buffer> rBuf;
+	private BufferHelper sBuf;
+	private List<BufferHelper> rBuf;
 	
 //	Parameters:
 //		Rel : the relation to be instreamed;
@@ -26,7 +26,7 @@ public class SPJ_backup {
 //	private String key;
 	private File file1 = new File("/SPJIterator/data/dept.raf");
 	private File file2 = new File("/SPJIterator/data/emp.raf");
-	private Buffer sPiterator;
+	private BufferHelper sPiterator;
 	private Catalog catalog;
 	private String rel1, rel2; // name of relation to fetch attribute list
 	private DbAttr key;
@@ -49,7 +49,7 @@ public class SPJ_backup {
 
 	
 	
-	public SPJ_backup(String rel1, String rel2, DbAttr key, Buffer it) throws Exception {
+	public SPJ_backup(String rel1, String rel2, DbAttr key, BufferHelper it) throws Exception {
 		this.rel1 = rel1;
 		this.rel2 = rel2;
 		this.key = key;
