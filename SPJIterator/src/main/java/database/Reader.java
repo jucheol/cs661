@@ -8,7 +8,7 @@ import java.util.List;
 /**
  * Buffer stores an information from a database file.
  */
-public class Buffer {
+public class Reader {
 	private byte[] buffer;	
 	private int numTuples, bufferSize, tupleLength, pageNumber, remainTuples;
 	private List<DbAttr> dbAttr;
@@ -21,7 +21,7 @@ public class Buffer {
 	 * @param  numTuples the number of tuples in a buffer
 	 * @param  dbAttr database attributes
 	 */
-	public Buffer(File db, int numTuples, List<DbAttr> dbAttr) {
+	public Reader(File db, int numTuples, List<DbAttr> dbAttr) {
 		tupleLength = 0;
 		pageNumber = 0;
 		for (DbAttr attr : dbAttr) {

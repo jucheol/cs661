@@ -2,7 +2,7 @@ package iterator;
 
 import java.io.File;
 
-import database.Buffer;
+import database.Reader;
 import database.Catalog;
 import database.Tuple;
 
@@ -12,7 +12,7 @@ import database.Tuple;
 public class SP {
 	private Condition filter;
 	private Tuple nextTuple;
-	private Buffer buf;
+	private Reader buf;
 	private int tuppleId;
 	
 	/**
@@ -26,7 +26,7 @@ public class SP {
 	 */
 	public SP(File db, String relName, Catalog cata, Condition filter) throws Exception {
 		this.filter = filter;		
-		buf = new Buffer(db, 10, cata.getDbAttrs(relName));
+		buf = new Reader(db, 10, cata.getDbAttrs(relName));
 	}
 	
 	public void open() throws Exception {

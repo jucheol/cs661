@@ -3,7 +3,7 @@
 import java.io.File;
 import java.util.List;
 
-import database.Buffer;
+import database.Reader;
 import database.Catalog;
 import database.DbAttr;
 import database.Tuple;
@@ -31,7 +31,7 @@ public class SPJ {
 	private Catalog catalog;
 	private String rel1, rel2; // name of relation to fetch attribute list
 	private DbAttr key;
-	private Buffer buf;
+	private Reader buf;
 
 	private int tupleLength1, tupleLength2;
 	private int totalTuple1, totalTuple2;
@@ -104,7 +104,7 @@ public class SPJ {
 	private void reloadBuffers() throws Exception {
 				numTuples1 = pageVolume;
 				if (totalTuple1 < pageVolume) numTuples1 = totalTuple1;
-				buf = new Buffer(file1, numTuples1, pageNum1, catalog.getDbAttrs(rel1));
+				buf = new Reader(file1, numTuples1, pageNum1, catalog.getDbAttrs(rel1));
 				pageNum1++;
 	}
 	
