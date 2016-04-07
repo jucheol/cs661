@@ -105,6 +105,16 @@ public class Buffer {
 		dept.close();
 		
 		//for SPJ iterator
+		emp.open();
+		dept.open();
+		
+		List<Buffer> r = new ArrayList<>();
+		r.add(dept);
+		SPJ it = new SPJ("Emp", "Dept", "DName", emp, r);
+		it.open();
+		while(it.hasNext()){
+			System.out.println(it.getNext().toString());
+		}
 		
 	}
 }

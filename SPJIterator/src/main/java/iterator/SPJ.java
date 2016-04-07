@@ -14,14 +14,14 @@ import database.Tuple;
 	  	private List<Buffer> rBuf;
 		private String rel1;
 		private String rel2;
-		private DbAttr key;
+		private String key;
 //		private boolean next;
 		private int rInx = 0, tupleInR = 0, tupleInS = 0;
 		private Tuple next = null;
 	  	
   	
 	  	
-	  	public SPJ(String rel1, String rel2, DbAttr key, Buffer s, List<Buffer> r) throws Exception {
+	  	public SPJ(String rel1, String rel2, String key, Buffer s, List<Buffer> r) throws Exception {
 	  		this.rel1 = rel1;
 	  		this.rel2 = rel2;
 	  		this.key = key;
@@ -58,7 +58,7 @@ import database.Tuple;
 	  				while(rBuf.get(rInx).hasNext()){
 	  					Tuple rTuple = rBuf.get(rInx).getNext().get(0);
 	  					if (sTuple.join(key, rTuple)){
-	  						next = new Tuple(sTuple, rTuple, key.getAttrName());
+	  						next = new Tuple(sTuple, rTuple, key);
 	  						return;
 	  					}
 	  				}

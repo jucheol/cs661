@@ -49,7 +49,7 @@ public class Tuple {
 		}
 	}
 	
-	public boolean join(DbAttr attr, Tuple tuple) {
-		return (tuple.getData(attr.getAttrName()).equals(this.getData(attr.getAttrName())));
+	public boolean join(String key, Tuple tuple) {
+		return (tuple.getData(key).equals(this.getData(key)));
 	}
 }
