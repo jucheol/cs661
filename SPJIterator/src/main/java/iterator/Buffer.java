@@ -14,7 +14,7 @@ import database.Tuple;
 public class Buffer {
 	private Condition filter;
 	private List<Tuple> nextBuffer;
-	private Reader buf;
+	private Reader reader;
 	private int tuppleId, bufSize = 10;
 	
 	/**
@@ -28,12 +28,12 @@ public class Buffer {
 	 */
 	public Buffer(File db, String relName, Catalog cata, Condition filter) throws Exception {
 		this.filter = filter;		
-		buf = new Reader(db, bufSize, cata.getDbAttrs(relName));
+		reader = new Reader(db, bufSize, cata.getDbAttrs(relName));
 	}
 	
 	public void open() throws Exception {
 		tuppleId = 0;
-		buf.fillBuffer();		
+		reader.fillBuffer();		
 	}
 	
 	public void close() {
@@ -48,16 +48,16 @@ public class Buffer {
 		Tuple tp = null;
 		List<Tuple> tmp = new ArrayList<Tuple>(bufSize);
 		while (tp == null) {
-			if (tuppleId == buf.getNumTuples()) {
-				if (buf.hasTuple()) {
-					buf.fillBuffer();
+			if (tuppleId == reader.getNumTuples()) {
+				if (reader.hasTuple()) {
+					reader.fillBuffer();
 					tuppleId = 0;
 				}
 				else { 
 					break;
 				}
 			}			
-			tp = buf.getTutple(tuppleId++);			
+			tp = reader.getTutple(tuppleId++);			
 			if (!filter.isSatisfy(tp)) {
 				tp = null;
 			} 
