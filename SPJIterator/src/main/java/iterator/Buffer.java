@@ -63,7 +63,10 @@ public class Buffer {
 			} 
 			else {
 				tmp.add(tp);
-				if (tmp.size() == bufSize);
+				tp = null;
+				if (tmp.size() == bufSize) {
+					break;
+				}
 			}
 		}
 		nextBuffer = tmp;
@@ -77,7 +80,7 @@ public class Buffer {
 		Buffer emp = new Buffer(new File("data/emp.raf"), "Emp", cata, filter);
 		emp.open();
 		while (emp.hasNext()) {
-			List<Tuple> buf = emp.getNext();
+			List<Tuple> buf = emp.getNext();			
 			for (Tuple tp : buf) {
 				if (tp.getData("Salary") != null) {
 					System.out.println(new String(tp.getData("Salary")));
