@@ -65,6 +65,10 @@ public class Buffer {
 		return nextBuffer.size() > 0;
 	}
 	
+	public void reload(){
+		//TODO reload the buffer from beginning of the file
+	}
+	
 	public static void main(String[] args) throws Exception {
 		Catalog cata = new Catalog(new File("data/xmlCatalog.xml"));
 		Condition filter = new Condition();
