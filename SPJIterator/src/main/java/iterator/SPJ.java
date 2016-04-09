@@ -26,7 +26,9 @@ public class SPJ {
 		this.rel1 = rel1;
 		this.rel2 = rel2;
 		this.key = key;
-		rHelper = new BufferHelper(new File("data/emp.raf"), "Emp", cata, filter);
+//		rHelper = new BufferHelper(new File("data/emp.raf"), "Emp", cata, filter);
+		this.sHelper = s;
+		this.rHelper = r;
 	}
 
 	public void open() throws Exception {
