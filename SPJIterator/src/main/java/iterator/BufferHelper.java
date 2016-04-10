@@ -106,13 +106,13 @@ public class BufferHelper {
 		emp.open();
 		dept.open();
 		
-		List<BufferHelper> r = new ArrayList<>();
-		r.add(dept);
-		SPJ it = new SPJ("Emp", "Dept", "DName", emp, r);
+		
+		SPJ it = new SPJ("Emp", "Dept", "DName", emp, dept);
 		it.open();
 		while(it.hasNext()){
 			System.out.println(it.getNext().toString());
 		}
+		it.close();
 		
 	}
 }
