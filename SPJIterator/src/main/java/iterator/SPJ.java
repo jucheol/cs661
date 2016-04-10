@@ -1,12 +1,8 @@
 package iterator;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.Reader;
-import database.Catalog;
-import database.DbAttr;
 import database.Tuple;
 
 public class SPJ {
@@ -94,6 +90,8 @@ public class SPJ {
 				reload(sBuf, sHelper);
 				tupleInS = 0;
 			}
+			rHelper.rewind();
+			reloadR(rBuf);
 		}
 		//can not find any joinable tuple
 		next = null;
