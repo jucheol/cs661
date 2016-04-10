@@ -1,7 +1,7 @@
 package iterator;
 
-
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import database.Reader;
@@ -16,24 +16,34 @@ public class SPJ {
 	private String rel1;
 	private String rel2;
 	private String key;
-	//		private boolean next;
+	private final int rBufSize = 8;
+
+	// private boolean next;
 	private int rInx = 0, tupleInR = 0, tupleInS = 0;
 	private Tuple next = null;
 
-
-
-	public SPJ(String rel1, String rel2, String key, BufferHelper s, List<BufferHelper> r) throws Exception {
+	public SPJ(String rel1, String rel2, String key, BufferHelper s,
+			BufferHelper r) throws Exception {
 		this.rel1 = rel1;
 		this.rel2 = rel2;
 		this.key = key;
-//		rHelper = new BufferHelper(new File("data/emp.raf"), "Emp", cata, filter);
+		// rHelper = new BufferHelper(new File("data/emp.raf"), "Emp", cata,
+		// filter);
 		this.sHelper = s;
 		this.rHelper = r;
 	}
 
 	public void open() throws Exception {
 
-		//find first tuple
+		sHelper.open();
+		if (sHelper.hasNext()) {
+			sBuf = sHelper.getNext();
+		}
+		rBuf = new ArrayList<>();
+		while (rHelper.hasNext() && rBuf.size() < rBufSize) {
+			rBuf.add(rHelper.getNext());
+		}
+
 		seek();
 	}
 
@@ -48,39 +58,77 @@ public class SPJ {
 		return tp;
 	}
 
-
 	/**
 	 * find next joined Tuple available
-	 * @throws Exception 
+	 * 
+	 * @throws Exception
 	 */
-	private void seek() throws Exception{
-		while(sBuf.hasNext()){
-			Tuple sTuple = sBuf.getNext().get(0);
-			while(rInx < rBuf.size())   {
-				while(rBuf.get(rInx).hasNext()){
-					Tuple rTuple = rBuf.get(rInx).getNext().get(0);
-					if (sTuple.join(key, rTuple)){
-						next = new Tuple(sTuple, rTuple, key);
-						return;
+	private void seek() throws Exception {
+
+		while (tupleInS < sBuf.getSize() || sHelper.hasNext()) {
+			if (tupleInS < sBuf.getSize()) {
+				Tuple sTuple = sBuf.getTuple(tupleInS);
+				// r has several buffer
+				while (rInx < rBuf.size() || rHelper.hasNext()) {
+					if(rInx < rBuf.size()) {
+						// find tuple in current buffer
+						while (tupleInR < rBuf.get(rInx).getSize()) {
+							Tuple rTuple = rBuf.get(rInx).getTuple(tupleInR);
+							if (sTuple.join(key, rTuple)) {
+								next = new Tuple(sTuple, rTuple, key);
+								return;
+							}
+							// get next tuple
+							tupleInR++;
+						}
+						rInx++;
+						// first tuple in next buffer
+						tupleInR = 0;
+					} else {
+						reloadR(rBuf);
+						rInx = 0;
 					}
 				}
-				rInx++;
+				tupleInS++;
+			} else {
+				reload(sBuf, sHelper);
+				tupleInS = 0;
 			}
-			rInx = 0;
 		}
+		//can not find any joinable tuple
 		next = null;
 	}
 
+	/**
+	 * only works for r buffer
+	 * @param list
+	 * @throws Exception 
+	 */
+	private void reloadR(List<Buffer> list) throws Exception {
+		list.clear();
+		while(rHelper.hasNext() && list.size() < rBufSize) {
+			list.add(rHelper.getNext());
+		}
+	}
+
+	private void reload(Buffer buf, BufferHelper helper) throws Exception {
+		if(helper.hasNext()) {
+			buf = helper.getNext();
+		} else {
+			buf = null;
+		}
+	}
 
 	public void close() {
-		//deallocate
-		rInx = 0; 
-		tupleInR = 0; 
+		// deallocate
+		rHelper.close();
+		sHelper.close();
+		sBuf = null;
+		rBuf = null;
+		rInx = 0;
+		tupleInR = 0;
 		tupleInS = 0;
 		next = null;
 	}
-
-
-
 
 }
