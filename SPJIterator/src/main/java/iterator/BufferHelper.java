@@ -65,6 +65,15 @@ public class BufferHelper {
 		return tmp.size() > 0;
 	}
 	
+	/**
+	 * TODO 
+	 * initiates buffer helper again
+	 * Then buffer can be loaded from the beginning of file
+	 */
+	public void rewind() {
+		
+	}
+	
 	public static void main(String[] args) throws Exception {
 		Catalog cata = new Catalog(new File("data/xmlCatalog.xml"));
 		Condition filter = new Condition();
