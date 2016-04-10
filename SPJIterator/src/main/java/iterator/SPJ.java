@@ -118,7 +118,7 @@ public class SPJ {
 	}
 
 	public void close() {
-		// deallocate
+		// make sure when open everything will be the same
 		rHelper.close();
 		sHelper.close();
 		sBuf = null;
