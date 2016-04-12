@@ -28,16 +28,22 @@ public class Tuple {
 	}
 	/**
 	 * constructs new tuple object using two tuples and key
+	 * attribute key's value will be tuple b's value
 	 * @param a
 	 * @param b
 	 * @param key
 	 */
 	public Tuple (Tuple a, Tuple b, String key) {
-		//TODO
+		attrData = a.getMap();
+		attrData.putAll(b.getMap());		
 	}
 	
 	public boolean contains(String attr){
 		return attrData.containsKey(attr);
+	}
+	
+	public Map<String, byte[]> getMap(){
+		return this.attrData;
 	}
 	
 	public byte[] getData(String attrName) {
