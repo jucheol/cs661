@@ -1,8 +1,10 @@
 package iterator;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import database.Catalog;
 import database.Tuple;
 
 public class SPJ {
@@ -64,12 +66,18 @@ public class SPJ {
 		while (tupleInS < sBuf.getSize() || sHelper.hasNext()) {
 			if (tupleInS < sBuf.getSize()) {
 				Tuple sTuple = sBuf.getTuple(tupleInS);
+//				if (sTuple.getData("DName") != null) {
+//					System.out.println("DName in sTuple =" +new String(sTuple.getData("DName")));
+//				}
 				// r has several buffer
 				while (rInx < rBuf.size() || rHelper.hasNext()) {
 					if(rInx < rBuf.size()) {
 						// find tuple in current buffer
 						while (tupleInR < rBuf.get(rInx).getSize()) {
 							Tuple rTuple = rBuf.get(rInx).getTuple(tupleInR);
+//							if (rTuple.getData("DName") != null) {
+//								System.out.println("DName in rTuple =" +new String(rTuple.getData("DName")));
+//							}
 							if (sTuple.join(key, rTuple)) {
 								next = new Tuple(sTuple, rTuple, key);
 								return;
@@ -127,6 +135,47 @@ public class SPJ {
 		tupleInR = 0;
 		tupleInS = 0;
 		next = null;
+	}
+	
+	public static void main(String[] args) throws Exception {
+		Catalog cata = new Catalog(new File("data/xmlCatalog.xml"));
+		Condition filter = new Condition();
+		
+		BufferHelper emp = new BufferHelper(new File("data/emp.raf"), "Emp", cata, filter);
+		emp.open();
+//		while (emp.hasNext()) {
+//			List<Tuple> buf = emp.getNext().getTuples();			
+//			for (Tuple tp : buf) {
+//				if (tp.getData("DName") != null) {
+//					System.out.println("DName =" +new String(tp.getData("DName")));
+//				}
+//			}
+//		}
+//		emp.close();
+		
+		BufferHelper dept = new BufferHelper(new File("data/dept.raf"), "Dept", cata, filter);
+		dept.open();
+//		while (dept.hasNext()) {
+//			List<Tuple> buf = dept.getNext().getTuples();
+//			for (Tuple tp : buf) {
+//				if (tp.getData("DName") != null) {
+//					System.out.println("DName in dept  =" +new String(tp.getData("DName")));
+//				}
+//			}
+//		}
+//		dept.close();
+		
+		//for SPJ iterator
+		
+		
+		SPJ it = new SPJ("Emp", "Dept", "DName", emp, dept);
+		it.open();
+		while(it.hasNext()){
+			String str = new String(it.getNext().getData("DName"));
+			System.out.println(str);
+		}
+		it.close();
+		
 	}
 
 }
