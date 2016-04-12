@@ -31,7 +31,7 @@ public class SPJ {
 
 	public void open() throws Exception {
 
-		sHelper.open();
+//		sHelper.open();
 		if (sHelper.hasNext()) {
 			sBuf = sHelper.getNext();
 		}

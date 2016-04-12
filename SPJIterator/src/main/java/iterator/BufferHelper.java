@@ -80,31 +80,31 @@ public class BufferHelper {
 		
 		BufferHelper emp = new BufferHelper(new File("data/emp.raf"), "Emp", cata, filter);
 		emp.open();
-		while (emp.hasNext()) {
-			List<Tuple> buf = emp.getNext().getTuples();			
-			for (Tuple tp : buf) {
-				if (tp.getData("Salary") != null) {
-					System.out.println(new String(tp.getData("Salary")));
-				}
-			}
-		}
-		emp.close();
+//		while (emp.hasNext()) {
+//			List<Tuple> buf = emp.getNext().getTuples();			
+//			for (Tuple tp : buf) {
+//				if (tp.getData("Salary") != null) {
+//					System.out.println(new String(tp.getData("Salary")));
+//				}
+//			}
+//		}
+//		emp.close();
 		
 		BufferHelper dept = new BufferHelper(new File("data/dept.raf"), "Dept", cata, filter);
 		dept.open();
-		while (dept.hasNext()) {
-			List<Tuple> buf = dept.getNext().getTuples();
-			for (Tuple tp : buf) {
-				if (tp.getData("MName") != null) {			
-					System.out.println(new String(tp.getData("DName")));
-				}
-			}
-		}
-		dept.close();
-		
-		//for SPJ iterator
-		emp.open();
-		dept.open();
+//		while (dept.hasNext()) {
+//			List<Tuple> buf = dept.getNext().getTuples();
+//			for (Tuple tp : buf) {
+//				if (tp.getData("MName") != null) {			
+//					System.out.println(new String(tp.getData("DName")));
+//				}
+//			}
+//		}
+//		dept.close();
+//		
+//		//for SPJ iterator
+//		emp.open();
+//		dept.open();
 		
 		
 		SPJ it = new SPJ("Emp", "Dept", "DName", emp, dept);
