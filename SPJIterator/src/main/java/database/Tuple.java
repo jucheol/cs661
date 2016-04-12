@@ -50,6 +50,8 @@ public class Tuple {
 	}
 	
 	public boolean join(String key, Tuple tuple) {
-		return (tuple.getData(key).equals(this.getData(key)));
+//		System.out.println(new String(tuple.getData(key)));
+//		System.out.println(new String(this.getData(key)));
+		return Arrays.equals(tuple.getData(key), this.getData(key));
 	}
 }
