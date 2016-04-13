@@ -83,8 +83,8 @@ public class BufferHelper {
 		while (emp.hasNext()) {
 			List<Tuple> buf = emp.getNext().getTuples();			
 			for (Tuple tp : buf) {
-				if (tp.getData("Salary") != null) {
-					System.out.println(new String(tp.getData("Salary")));
+				if (tp.getData("DName") != null) {			
+					System.out.println(new String(tp.getData("DName")));
 				}
 			}
 		}
@@ -95,7 +95,7 @@ public class BufferHelper {
 		while (dept.hasNext()) {
 			List<Tuple> buf = dept.getNext().getTuples();
 			for (Tuple tp : buf) {
-				if (tp.getData("MName") != null) {			
+				if (tp.getData("DName") != null) {			
 					System.out.println(new String(tp.getData("DName")));
 				}
 			}
