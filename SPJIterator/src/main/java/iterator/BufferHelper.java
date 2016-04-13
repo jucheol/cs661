@@ -72,7 +72,6 @@ public class BufferHelper {
 	}
 	
 	/**
-	 * TODO 
 	 * initiates buffer helper again
 	 * Then buffer can be loaded from the beginning of file
 	 * @throws Exception 
