@@ -15,6 +15,9 @@ public class BufferHelper {
 	private Condition filter;
 	private Buffer nextBuffer;
 	private Reader reader;
+	private File db;
+	private String relName;
+	private Catalog cata;
 	private int tuppleId, bufSize = 10;
 	
 	/**
@@ -27,7 +30,10 @@ public class BufferHelper {
 	 * @throws Exception IO exception
 	 */
 	public BufferHelper(File db, String relName, Catalog cata, Condition filter) throws Exception {
+		this.db = db;
+		this.relName = relName;
 		this.filter = filter;		
+		this.cata = cata;
 		reader = new Reader(db, bufSize, cata.getDbAttrs(relName));
 	}
 	
@@ -69,9 +75,11 @@ public class BufferHelper {
 	 * TODO 
 	 * initiates buffer helper again
 	 * Then buffer can be loaded from the beginning of file
+	 * @throws Exception 
 	 */
-	public void rewind() {
-		
+	public void rewind() throws Exception {
+		reader = new Reader(db, bufSize, cata.getDbAttrs(relName));
+		this.open();
 	}
 	
 	public static void main(String[] args) throws Exception {
@@ -87,7 +95,7 @@ public class BufferHelper {
 					System.out.println(new String(tp.getData("DName")));
 				}
 			}
-		}
+		}		
 		emp.close();
 		
 		BufferHelper dept = new BufferHelper(new File("data/dept.raf"), "Dept", cata, filter);
@@ -96,6 +104,16 @@ public class BufferHelper {
 			List<Tuple> buf = dept.getNext().getTuples();
 			for (Tuple tp : buf) {
 				if (tp.getData("DName") != null) {			
+					System.out.println(new String(tp.getData("DName")));
+				}
+			}
+		}
+		dept.rewind();
+		System.err.println("Rewinded...");
+		while (dept.hasNext()) {
+			List<Tuple> buf = dept.getNext().getTuples();
+			for (Tuple tp : buf) {
+				if (tp.getData("MName") != null) {			
 					System.out.println(new String(tp.getData("DName")));
 				}
 			}
