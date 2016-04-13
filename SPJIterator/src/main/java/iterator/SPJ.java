@@ -52,6 +52,7 @@ public class SPJ {
 	public Tuple getNext() throws Exception {
 
 		Tuple tp = next;
+//		next = null;
 		seek();
 		return tp;
 	}
@@ -80,6 +81,9 @@ public class SPJ {
 //							}
 							if (sTuple.join(key, rTuple)) {
 								next = new Tuple(sTuple, rTuple, key);
+								tupleInR++;
+//								rHelper.rewind();
+//								reloadR(rBuf);
 								return;
 							}
 							// get next tuple
@@ -91,6 +95,7 @@ public class SPJ {
 					} else {
 						reloadR(rBuf);
 						rInx = 0;
+						tupleInR = 0;
 					}
 				}
 				tupleInS++;
@@ -168,7 +173,7 @@ public class SPJ {
 		//for SPJ iterator
 		
 		
-		SPJ it = new SPJ("Emp", "Dept", "DName", emp, dept);
+		SPJ it = new SPJ("Emp", "Dept", "DName", dept,  emp);
 		it.open();
 		while(it.hasNext()){
 			String str = new String(it.getNext().getData("DName"));
