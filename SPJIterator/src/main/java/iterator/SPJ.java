@@ -37,7 +37,7 @@ public class SPJ {
 		if (sHelper.hasNext()) {
 			sBuf = sHelper.getNext();
 		}
-		rBuf = new ArrayList<>();
+		rBuf = new ArrayList<Buffer>();
 		while (rHelper.hasNext() && rBuf.size() < rBufSize) {
 			rBuf.add(rHelper.getNext());
 		}
