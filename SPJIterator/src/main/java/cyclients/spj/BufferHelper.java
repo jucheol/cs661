@@ -4,10 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.Reader;
-import database.Catalog;
-import database.Tuple;
-
 /**
  * Buffer class.
  */

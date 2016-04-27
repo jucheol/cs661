@@ -4,9 +4,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import database.Catalog;
-import database.Tuple;
-
 public class SPJv2 {
 	private BufferHelper rHelper, sHelper;
 //	private Buffer sBuf;

@@ -2,8 +2,6 @@ package cyclients.spj;
 
 import java.util.List;
 
-import database.Tuple;
-
 public class Buffer {
 	private List<Tuple> tuples;
 	

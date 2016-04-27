@@ -11,12 +11,12 @@ import org.apache.commons.lang.RandomStringUtils;
  * A sample data generator
  */
 public class SampleGenerator {
-	public static void main(String[] args) throws Exception {		
-		File empF = new File("data/emp.raf");
+	public static void create() throws Exception {		
+		File empF = new File("workspace/emp.bin");
 		if (empF.exists()) {
 			empF.delete();
 		}
-		File deptF = new File("data/dept.raf");
+		File deptF = new File("workspace/dept.bin");
 		if (deptF.exists()) {
 			deptF.delete();
 		}
