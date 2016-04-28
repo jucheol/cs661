@@ -4,6 +4,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 /**
  * Tuple contains data of all attributes
@@ -60,4 +61,19 @@ public class Tuple {
 //		System.out.println(new String(this.getData(key)));
 		return Arrays.equals(tuple.getData(key), this.getData(key));
 	}
+	/* (non-Javadoc)
+	 * @see java.lang.Object#toString()
+	 */
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		for(Entry<String, byte[]> e : attrData.entrySet()){
+			sb.append(e.getKey())
+				.append("=\"")
+				.append(e.getValue().toString())
+				.append("\" ");
+		}
+		return sb.toString();
+	}
+	
 }

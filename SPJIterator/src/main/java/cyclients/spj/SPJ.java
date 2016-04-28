@@ -3,6 +3,13 @@ package cyclients.spj;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.io.BufferedWriter;
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.StringTokenizer;
 
 public class SPJ {
 	private BufferHelper rHelper, sHelper;
@@ -139,11 +146,11 @@ public class SPJ {
 		next = null;
 	}
 	
-	public static void main(String[] args) throws Exception {
-		Catalog cata = new Catalog(new File("data/xmlCatalog.xml"));
+	public static void test(String out) throws Exception {
+		Catalog cata = new Catalog(new File("cyclients/spj/workspace/xmlCatalog.xml"));
 		Condition filter = new Condition();
 		
-		BufferHelper emp = new BufferHelper(new File("data/emp.raf"), "Emp", cata, filter);
+		BufferHelper emp = new BufferHelper(new File("cyclients/spj/workspace/emp.bin"), "Emp", cata, filter);
 		emp.open();
 //		while (emp.hasNext()) {
 //			List<Tuple> buf = emp.getNext().getTuples();			
@@ -155,7 +162,7 @@ public class SPJ {
 //		}
 //		emp.close();
 		
-		BufferHelper dept = new BufferHelper(new File("data/dept.raf"), "Dept", cata, filter);
+		BufferHelper dept = new BufferHelper(new File("cyclients/spj/workspace/dept.bin"), "Dept", cata, filter);
 		dept.open();
 //		while (dept.hasNext()) {
 //			List<Tuple> buf = dept.getNext().getTuples();
@@ -167,16 +174,25 @@ public class SPJ {
 //		}
 //		dept.close();
 		
+		// Assume default encoding.
+			FileWriter fileWriter = new FileWriter(out);
+
+			// Always wrap FileWriter in BufferedWriter.
+			BufferedWriter bw = new BufferedWriter(fileWriter);
+
+
+
 		//for SPJ iterator
 		
 		
 		SPJ it = new SPJ("Emp", "Dept", "DName", dept,  emp);
 		it.open();
 		while(it.hasNext()){
-			String str = new String(it.getNext().getData("DName"));
-			System.out.println(str);
+			Tuple joined = it.getNext();
+			bw.write(joined.toString() + "\r\n");
 		}
 		it.close();
+		bw.close();
 		
 	}
 
