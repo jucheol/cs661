@@ -7,10 +7,42 @@ import java.util.List;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.RandomStringUtils;
 
+import cyclients.spj.Catalog;
+import cyclients.spj.DbAttr;
+import cyclients.spj.DbRel;
+
 /**
  * A sample data generator
  */
 public class SampleGenerator {
+	public static void create(String cataName, String num) throws Exception {		
+		Catalog cata = new Catalog(new File(cataName));
+		int count = Integer.parseInt(num);
+		for (DbRel rel : cata.getDbRels()) {
+			File relFile = new File("cyclients/spj/workspace/" + rel.getRelName() + ".bin");
+			if (relFile.exists()) {
+				relFile.delete();
+			}			
+			RandomAccessFile relDb = new RandomAccessFile(relFile, "rw");
+			int offset = 0;
+			for (int id = 0; id < count; id++) {				
+				for (DbAttr attr : cata.getDbAttrs(rel.getRelName())) {
+					byte[] data = null;
+					if (attr.getAttrType().equals("integer")) {
+						data = RandomStringUtils.randomNumeric(attr.getAttrLength()).getBytes();
+					}
+					else {
+						data = RandomStringUtils.randomAlphabetic(attr.getAttrLength()).getBytes();
+					}							
+					relDb.seek(offset);
+					relDb.write(data);
+					offset += attr.getAttrLength();
+				}				
+			}
+			relDb.close();
+		}
+	}
+	
 	public static void main(String[] args) throws Exception {		
 		File empF = new File("data/emp.raf");
 		if (empF.exists()) {
