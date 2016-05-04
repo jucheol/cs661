@@ -1,6 +1,8 @@
 package database;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.RandomAccessFile;
 import java.util.LinkedList;
 import java.util.List;
@@ -54,25 +56,36 @@ public class SampleGenerator {
 		}
 		RandomAccessFile empDb = new RandomAccessFile(empF, "rw");
 		RandomAccessFile deptDb = new RandomAccessFile(deptF, "rw");		
-		List<byte[]> DNames = new LinkedList<byte[]>();		
-		int empCount = 2000, deptCount = 40;		
+		List<String> DNames = new LinkedList<String>();		
+		int empCount = 2000, deptCount = 40;				
+		BufferedWriter bw = new BufferedWriter(new FileWriter("data/dept.txt"));
 		for (int offSet = 0; offSet < deptCount; offSet++) {			
-			byte[] DName = RandomStringUtils.randomAlphabetic(10).getBytes();
-			DNames.add(DName);
-			byte[] MName = RandomStringUtils.randomAlphabetic(20).getBytes();
+			String DNameStr = RandomStringUtils.randomAlphabetic(10);
+			byte[] DName = DNameStr.getBytes();			
+			DNames.add(DNameStr);
+			String MNameStr = RandomStringUtils.randomAlphabetic(20);			
+			byte[] MName = MNameStr.getBytes();
 			byte[] dept = ArrayUtils.addAll(DName, MName);
 			deptDb.seek(offSet * 30);
 			deptDb.write(dept);
-		}		
-		for (int offSet = 0; offSet < empCount; offSet++) {			
-			byte[] Name = RandomStringUtils.randomAlphabetic(20).getBytes();
-			byte[] DName = DNames.get(offSet % deptCount);
-			byte[] Salary = RandomStringUtils.randomNumeric(4).getBytes();			
+			bw.write("DName=[" + DNameStr + "], MName=[" + MNameStr + "]\n");
+		}	
+		bw.close();
+		bw = new BufferedWriter(new FileWriter("data/emp.txt"));
+		for (int offSet = 0; offSet < empCount; offSet++) {
+			String NameStr = RandomStringUtils.randomAlphabetic(20);
+			byte[] Name = NameStr.getBytes();
+			String DNameStr = DNames.get(offSet % deptCount);
+			byte[] DName = DNameStr.getBytes();
+			String SalaryStr = RandomStringUtils.randomNumeric(4); 
+			byte[] Salary = SalaryStr.getBytes();			
 			byte[] tName = ArrayUtils.addAll(Name, DName);
 			byte[] emp = ArrayUtils.addAll(tName, Salary);
 			empDb.seek(offSet * 34);
 			empDb.write(emp);
+			bw.write("Name=[" + NameStr + "], DName=[" + DNameStr + "], Salary=["+ SalaryStr +"]\n");
 		}
+		bw.close();		
 		empDb.close();
 		deptDb.close();
 	}
